@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>TOEIC 800 PRO</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TOEIC 800">
+<meta name="theme-color" content="#0E1116">
 <style>
   :root{
     --bg:#0E1116; --bg2:#11151C; --surface:#171C26; --surface2:#1E2530;
@@ -1301,6 +1308,13 @@ $("voice").checked=state.settings.voice; $("rate").value=state.settings.rate;
 if(state.examDate) $("examDateInput").value=state.examDate.slice(0,10);
 refreshExamSub();
 (function(){ const v=state.settings.rate; $("rateLbl").textContent=v<0.8?"ゆっくり":v>1.0?"速め":"標準"; })();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(() => {});
+  });
+}
 </script>
 </body>
 </html>

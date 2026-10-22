@@ -109,9 +109,10 @@ for attempt in range(40):
 else:
     sys.exit('too many missing settings')
 
-head = open(out, encoding='utf-8', errors='ignore').read(4000)
-info = dict(re.findall(r';(TIME|LAYER_COUNT|FLAVOR):\s*(.+)', head))
-# CLI leaves ';Filament used: 0m' and MINX/MAXX placeholders (the Cura GUI fills them) -> compute from E values
+# The G-code header written by the CLI holds placeholders (;TIME:6666, ;Filament used: 0m, MINX...).
+# The real estimate is only in the engine log: "Print time (s): N" / "Filament (mm^3): N".
+t_log = re.search(r'Print time \(s\): (\d+)', log)
+f_log = re.search(r'Filament \(mm\^3\): (\d+)', log)
 seg_max = base = total = 0.0
 layers = 0
 for line in open(out, encoding='utf-8', errors='ignore'):
@@ -127,9 +128,10 @@ for line in open(out, encoding='utf-8', errors='ignore'):
             seg_max = max(seg_max, float(m.group(1)))
 total += max(0.0, seg_max - base)
 dia = float(settings.get('material_diameter', 1.75))
-cm3 = total * 3.14159265 * (dia / 2) ** 2 / 1000
+cm3 = int(f_log.group(1)) / 1000 if f_log else total * 3.14159265 * (dia / 2) ** 2 / 1000
+secs = int(t_log.group(1)) if t_log else 0
 print(f'OK  printer={a.printer}  gcode={out}  size={os.path.getsize(out)/1e6:.1f}MB  layers={layers}')
 print(f'    filament={total/1000:.2f} m  = {cm3:.1f} cm3  = {cm3*1.24:.0f} g PLA')
-print(f'    CuraEngine time estimate={int(float(info.get("TIME", 0)))//60} min (real printers are usually 1.5-2x slower)')
+print(f'    print time (CuraEngine estimate) = {secs//3600}h {secs%3600//60}m')
 if missing_fill:
     print('    filled formula-only settings with 0:', ', '.join(missing_fill))

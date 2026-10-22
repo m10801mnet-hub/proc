@@ -32,7 +32,9 @@ description: ClaudeがユーザーのPC（Windows）上のアプリ（Blender・
 
 ## スキルを全セッションで使う
 - このリポジトリの `.claude/skills/` はこのリポジトリで開いたセッションでのみ有効。
-- PCのどこでも使うには：各スキルフォルダを `%USERPROFILE%\.claude\skills\` にコピー、または claude.ai の 設定→機能→スキル にzipでアップロード（同期で全セッションに配布）。
+- PCのどこでも使うには：リポジトリ（github.com/m10801mnet-hub/proc）を clone して `install_skills.bat` を実行 → `%USERPROFILE%\.claude\skills\` に全スキルが入る。更新は `pwsh -File install_skills.ps1 -Pull`。
+- claude.ai 全体に配るには：`.claude/skills/dist/*.zip` を 設定→機能→スキル にアップロード。
+- PowerShell台本（.ps1）は日本語を含むので **UTF-8 BOM付き** で保存する（BOM無しだとWindows PowerShell 5.1で文字化けしフォルダ名が壊れる）。
 
 ## クラウドからの受け渡しの定石
 - 大きいファイル（>10MB）はGoogle Driveでは取れない → GitHubへアップロード（1ファイル25MB）してもらう。

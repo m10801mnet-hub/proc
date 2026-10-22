@@ -13,6 +13,11 @@ description: Unreal Engine 5 をPythonとコマンドラインで自動化する
 - エディタ内：Output Log の入力欄を `Python` にして `py "C:/path/job.py"`
 - ヘッドレス：`UnrealEditor-Cmd.exe "C:/Proj/Proj.uproject" -run=pythonscript -script="C:/path/job.py" -unattended -nosplash`
 
+## 台本：`scripts/import_and_shoot.py`（構文チェック済み・PCで要検証）
+モデル（GLB/FBX/OBJ）を `/Game/Imports` に取り込み → 原点に配置 → 目線1,600mm・距離6mの4方向カメラを置いて 4K 静止画を4枚。
+`UnrealEditor-Cmd.exe "C:/Proj/Proj.uproject" -ExecutePythonScript="C:/path/import_and_shoot.py C:/in/model.glb"`
+出力：`<Project>/Saved/Screenshots/`
+
 ## よく使うコード
 ```python
 import unreal

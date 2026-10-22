@@ -11,6 +11,21 @@ description: Windows PCのデスクトップ・ドキュメント・外付けハ
 3. Windows・Program Files・AppData・OneDriveの同期設定・ドライブ直下のシステムフォルダには触れない。
 4. すべての移動を CSV ログ（元パス, 新パス, サイズ, SHA256）に残し、ログから戻す `undo.ps1` を同時生成。
 
+## 台本：`scripts/organize.ps1`（PowerShell 7 で検証済み）
+```
+pwsh -File organize.ps1 -Mode Inventory -Root "$env:USERPROFILE\Desktop"   # 棚卸し（読み取りのみ）
+pwsh -File organize.ps1 -Mode Plan -Root "$env:USERPROFILE\Desktop"        # 計画 plan.csv（移動しない）
+pwsh -File organize.ps1 -Mode Apply                                       # 承認後に実行（move_log.csv）
+pwsh -File organize.ps1 -Mode Undo                                        # 元に戻す
+# 外付けHDD： -Root "E:\" -Dest "E:\整理済み" -Recurse
+```
+- 作業ファイル：`ドキュメント\クロードコード\file-organizer\`、整理先の既定：`ドキュメント\整理済み\`
+- 拡張子で 3D（STL_印刷用/スライス済/Blender/Rhino/Fusion_STEP/ZBrush/交換形式）・図面・写真（年\年-月）・動画・ドキュメント・アーカイブに分類。
+- 重複は SHA256 で判定し、パスが短い方を残して `_整理待ち\日付\重複` へ。インストーラーも `_整理待ち` へ。
+- `.lnk/.url/desktop.ini`・隠し/システムファイルは触らない。同名衝突は `_2` を付与。
+- 検証内容：12ファイル（重複2組・ショートカット・サブフォルダ・2024年の写真）で 計画→実行→元に戻す を通し、11件の移動と11件の復元を確認。
+- Windows PowerShell 5.1 でも動く書き方だが、PowerShell 7（pwsh）推奨。実行ポリシーで止まる場合は `-ExecutionPolicy Bypass`。
+
 ## 1. 棚卸し（PowerShell・読み取りのみ）
 ```powershell
 $root = "$env:USERPROFILE\Desktop"

@@ -30,6 +30,7 @@ R = [[0,0,-1],[-1,0,0],[0,1,0]]
    - **pymeshfix は最初に使わない**（watertightなメッシュを壊した実例あり）。間引き後に非多様体が出たときだけ使う。
    - 軽量版：`fast_simplification.simplify(..., target_reduction=0.75)` → 非多様体を pymeshfix で修復 → 元メッシュから最近傍で頂点色を転写。
    - 向き確認は色で：背中の縞（茶色）の平均Yが＋なら正面は−Y。
+   - **台本（検証済み）**：`python scripts/finalize_mesh.py model.glb out_dir NAME 100` で 4. を一括実行（通常版＋軽量版、検査結果を表示）。80mm指定で通常版144万面・軽量版36万面とも watertight／非多様体0 を確認。
 5. **出力**：`*_100mm.stl`（単色）、`*_100mm.obj`（頂点カラー付き）、`*_light.stl/obj`（約36万面）。zip化して配布。
 
 ## 環境の落とし穴

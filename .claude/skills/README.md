@@ -15,10 +15,11 @@
 | career-job-search | 求人リサーチ・職務経歴書・MATOBA MODEL判断 | — | 手順 |
 | work-reports | 朝報告・ルーティン報告・スレッド統合 | — | 雛形（過去の報告書で要追記） |
 | pc-autonomy-setup | クラウド/PC/コンピュータ操作の使い分け・許可設定 | — | 手順 |
+| codex-imagegen | 画像生成をCodex（codex exec の $imagegen）に任せる | codex_image.py | ✅ Codex 0.167 で引数・取り込み処理を確認 ／ ⚠ 実生成はPCで `codex login` 後に確認 |
 
 ## インストール
 - **PC（全プロジェクトで使う・推奨）**：リポジトリ直下の `install_skills.bat` をダブルクリック
-  → `%USERPROFILE%\.claude\skills\` に11本をコピー（既存の同名スキルは `%USERPROFILE%\.claude\skills_backup\日時\` に退避）。
+  → `%USERPROFILE%\.claude\skills\` に12本をコピー（既存の同名スキルは `%USERPROFILE%\.claude\skills_backup\日時\` に退避）。
   最新化して入れ直す：`pwsh -File install_skills.ps1 -Pull`
 - **このリポジトリで開いたセッション**：自動で読み込まれる（設定不要）。
 - **claude.ai（スマホ・Web）**：`dist/` のスキル別 zip を 設定 → 機能 → スキル からアップロード。
